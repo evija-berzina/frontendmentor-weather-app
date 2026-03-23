@@ -7,16 +7,13 @@ export function Header() {
   return (
     <>
       <header>
-        <nav>
-          <img src={Logo} alt="Weather Now logo" />
-          <button>
-            <img src={IconUnits} alt="" />
+        <nav className='flex flex-row justify-between'>
+          <img className='w-30' src={Logo} alt="Weather Now logo" />
+          <button className='flex flex-row justify-center items-center gap-1 px-2 py-1.5 bg-[hsl(var(--neutral-800))] rounded-sm text-xs font-light'>
+            <img className='w-3 h-3' src={IconUnits} alt="" />
             Units
-            <img src={IconDropdown} alt="" />
+            <img className='w-2 h-2' src={IconDropdown} alt="" />
           </button>
-          <div>
-            
-          </div>
         </nav>
       </header>
     </>
