@@ -62,12 +62,16 @@
   --fs-base: 1.125rem;
 }
 
+@theme {
+  --font-display: "Bricolage Grotesque", sans-serif;
+}
+
 body {
   background-color: hsl(var(--bg-700));
   color: hsl(var(--white));
   font-family: var(--font-dm);
   font-size: var(--fs-base);
-  font-weight: 500;
+  font-weight: 300;
 }
 
 
