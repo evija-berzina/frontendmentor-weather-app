@@ -1,8 +1,7 @@
 import BgImageSmall from '../assets/images/bg-today-small.svg';
 import BgImageLarge from '../assets/images/bg-today-large.svg';
-import IconSunny from '../assets/images/icon-sunny.webp';
 
-export function CurrentWeather() {
+export function CurrentWeather({data, getWeatherIcon}) {
   
   return (
     <>
@@ -23,8 +22,8 @@ export function CurrentWeather() {
         <div className='flex flex-row justify-between items-center w-full relative'>
           <img
           className='w-30 h-30'
-          src={IconSunny} alt="" />
-          <p className='text-8xl italic font-normal'>68°</p>
+          src={getWeatherIcon(data.weatherCode)} alt="" />
+          <p className='text-8xl italic font-normal'>{Math.round(data.currentTemperature)}°</p>
         </div>
       </div>
       <div className='grid grid-cols-2 gap-4'>
@@ -33,28 +32,28 @@ export function CurrentWeather() {
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Feels Like
           </p>
-          <p className='text-4xl'>64°</p>
+          <p className='text-4xl'>{data.feelsLike}°</p>
         </div>
         <div className='bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md p-4'>
           <p className='
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Humidity
           </p>
-          <p className='text-4xl'>46%</p>
+          <p className='text-4xl'>{data.humidity}%</p>
         </div>
         <div className='bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md p-4'>
           <p className='
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Wind
           </p>
-          <p className='text-4xl'>9 mph</p>
+          <p className='text-4xl'>{data.wind} km/h</p>
         </div>
         <div className='bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md p-4'>
           <p className='
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Precipitation
           </p>
-          <p className='text-4xl'>0 in</p>
+          <p className='text-4xl'>{data.percipitation} mm</p>
         </div>
       </div>
     </>
