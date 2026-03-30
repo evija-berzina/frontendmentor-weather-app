@@ -13,17 +13,17 @@ export function CurrentWeather({data, getWeatherIcon}) {
         </picture>
         <div className='text-center relative'>
           <p className='text-3xl font-semibold'>
-            Berlin, Germany
+            {data.current.cityName}
           </p>
           <p className='text-xl pt-2'>
-            Tuesday, Aug 5, 2025
+            {data.current.time}
           </p>
         </div>
         <div className='flex flex-row justify-between items-center w-full relative'>
           <img
           className='w-30 h-30'
-          src={getWeatherIcon(data.weatherCode)} alt="" />
-          <p className='text-8xl italic font-normal'>{Math.round(data.currentTemperature)}°</p>
+          src={getWeatherIcon(data.current.weatherCode)} alt="" />
+          <p className='text-8xl italic font-normal'>{Math.round(data.current.currentTemperature)}°</p>
         </div>
       </div>
       <div className='grid grid-cols-2 gap-4'>
@@ -32,28 +32,28 @@ export function CurrentWeather({data, getWeatherIcon}) {
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Feels Like
           </p>
-          <p className='text-4xl'>{data.feelsLike}°</p>
+          <p className='text-4xl'>{data.current.feelsLike}°</p>
         </div>
         <div className='bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md p-4'>
           <p className='
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Humidity
           </p>
-          <p className='text-4xl'>{data.humidity}%</p>
+          <p className='text-4xl'>{data.current.humidity}%</p>
         </div>
         <div className='bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md p-4'>
           <p className='
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Wind
           </p>
-          <p className='text-4xl'>{data.wind} km/h</p>
+          <p className='text-4xl'>{data.current.wind} km/h</p>
         </div>
         <div className='bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md p-4'>
           <p className='
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Precipitation
           </p>
-          <p className='text-4xl'>{data.percipitation} mm</p>
+          <p className='text-4xl'>{data.current.percipitation} mm</p>
         </div>
       </div>
     </>

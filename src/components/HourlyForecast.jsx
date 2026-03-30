@@ -1,7 +1,6 @@
 import IconDropdown from '../assets/images/icon-dropdown.svg';
-import IconCloudy from '../assets/images/icon-overcast.webp';
 
-export function HourlyForecast() {
+export function HourlyForecast({data, getWeatherIcon}) {
   return (
     <div className='flex flex-col justify-center items-center gap-2 bg-[hsl(var(--neutral-800))] rounded-2xl p-4'>
       <div className='flex flex-row justify-between items-center w-full'>
@@ -11,34 +10,15 @@ export function HourlyForecast() {
           <img className='w-2 h-2' src={IconDropdown} alt="" />
         </button>
       </div>
-      <div className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
-        <div className='flex flex-row justify-center items-center gap-2'>
-          <img className='w-10' src={IconCloudy} alt="" />
-          <p>3 PM</p>
+      {data.hourly.map(hour => (
+        <div key={hour.time} className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
+          <div className='flex flex-row justify-center items-center gap-2'>
+            <img className='w-10' src={getWeatherIcon(hour.weatherCode)} alt="" />
+            <p>{hour.time} PM</p>
+          </div>
+          <p className='text-sm'>{hour.temperature}°</p>
         </div>
-        <p className='text-sm'>68°</p>
-      </div>
-      <div className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
-        <div className='flex flex-row justify-center items-center gap-2'>
-          <img className='w-10' src={IconCloudy} alt="" />
-          <p>3 PM</p>
-        </div>
-        <p className='text-sm'>68°</p>
-      </div>
-      <div className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
-        <div className='flex flex-row justify-center items-center gap-2'>
-          <img className='w-10' src={IconCloudy} alt="" />
-          <p>3 PM</p>
-        </div>
-        <p className='text-sm'>68°</p>
-      </div>
-      <div className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
-        <div className='flex flex-row justify-center items-center gap-2'>
-          <img className='w-10' src={IconCloudy} alt="" />
-          <p>3 PM</p>
-        </div>
-        <p className='text-sm'>68°</p>
-      </div>
+      ))}
     </div>
   )
 }
