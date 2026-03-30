@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import {useState} from 'react';
 import {Error} from './Error'
 import {InputSearch} from '../components/InputSearch';
@@ -16,21 +17,37 @@ import IconStorm from '../assets/images/icon-storm.webp';
 export function Home() {
   
   const [data, setData] = useState({
-    weatherCode: '',
-    currentTemperature: '',
-    feelsLike: '',
-    humidity: '',
-    wind: '',
-    percipitation: '',
+    current: {
+      weatherCode: '',
+      cityName: '',
+      time: '',
+      currentTemperature: '',
+      feelsLike: '',
+      humidity: '',
+      wind: '',
+      percipitation: '',
+    },
+    daily: [],
+    hourly: []
   });
 
   async function getData(e) {
     e.preventDefault();
-    
-    console.log("FETCHING...");
+
+    const form = e.target.search.value;
 
     try {
-      const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=56.946&longitude=24.1059&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code,apparent_temperature');
+      const responseGeo = await fetch(`https://nominatim.openstreetmap.org/search?city=${form}&format=jsonv2`);
+      
+      if (!responseGeo.ok) {
+        throw new Error(`Response status: ${responseGeo.status}`);
+      }
+
+      const resultGeo = await responseGeo.json();
+      console.log(resultGeo[0].display_name)
+
+
+      const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${resultGeo[0].lat}&longitude=${resultGeo[0].lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=,temperature_2m,weather_code&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code,apparent_temperature`);
 
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
@@ -38,18 +55,45 @@ export function Home() {
 
       const result = await response.json();
 
+      const dailyArray = result.daily.time.map((date, index) => ({
+        time: dayjs(date).format('ddd'),
+        weatherCode: result.daily.weather_code[index],
+        maxTemperature: result.daily.temperature_2m_max[index],
+        minTemperature: result.daily.temperature_2m_min[index],
+      }));
+
+      const hourlyArray = result.hourly.time.map((hour, index) => ({
+        time: dayjs(hour).format('h A'),
+        weatherCode: result.hourly.weather_code[index],
+        temperature: result.hourly.temperature_2m[index],
+      }))
+
+    
       setData({
         ...data,
-        weatherCode: result.current.weather_code,
-        currentTemperature: result.current.temperature_2m,
-        feelsLike: result.current.apparent_temperature,
-        humidity: result.current.relative_humidity_2m,
-        wind: result.current.wind_speed_10m,
-        percipitation: result.current.precipitation,
-        
-      });
+        current: {
+          ...data.current,
+          weatherCode: result.current.weather_code,
+          time: dayjs(result.current.time).format('dddd, MMM D, YYYY'),
+          cityName: resultGeo[0].display_name,
+          currentTemperature: result.current.temperature_2m,
+          feelsLike: result.current.apparent_temperature,
+          humidity: result.current.relative_humidity_2m,
+          wind: result.current.wind_speed_10m,
+          percipitation: result.current.precipitation,
+        },
+        daily: dailyArray,
+        hourly: hourlyArray,
+      })
+
+      const now = dayjs();
+      const todaysDay = now.format('YYYY-MM-DD HH:mm');
+      console.log(todaysDay)
+      console.log(now)
 
       console.log(result)
+      console.log(result.daily);
+      console.log(result.hourly);
 
     } catch (error) {
       console.log(error.message)
@@ -78,8 +122,14 @@ export function Home() {
           data={data}
           getWeatherIcon={getWeatherIcon}
         />
-        <DailyForecast />
-        <HourlyForecast />
+        <DailyForecast
+          data={data}
+          getWeatherIcon={getWeatherIcon}
+        />
+        <HourlyForecast
+          data={data}
+          getWeatherIcon={getWeatherIcon}
+        />
       </section>
       {/* <Error /> */}
     </>
