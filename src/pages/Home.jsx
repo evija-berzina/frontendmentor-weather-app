@@ -43,8 +43,7 @@ export function Home({unit}) {
   }
 
   async function getWeather(lat, lon, unit) {
-    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code,apparent_temperature&temperature_unit=${unit.temperature === 'c' ? 'celsius' : 'fahrenheit'}`);
-
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code,apparent_temperature&temperature_unit=${unit.temperature === 'c' ? 'celsius' : 'fahrenheit'}&wind_speed_unit=${unit.windSpeed === 'km/h' ? 'kmh' : 'mph'}&precipitation_unit=${unit.precipitation === 'mm' ? 'mm' : 'inch'}`);
 
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
@@ -229,6 +228,7 @@ export function Home({unit}) {
         <CurrentWeather
           data={data}
           getWeatherIcon={getWeatherIcon}
+          unit={unit}
         />
         <DailyForecast
           data={data}

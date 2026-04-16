@@ -1,7 +1,7 @@
 import BgImageSmall from '../assets/images/bg-today-small.svg';
 import BgImageLarge from '../assets/images/bg-today-large.svg';
 
-export function CurrentWeather({data, getWeatherIcon}) {
+export function CurrentWeather({data, getWeatherIcon, unit}) {
   
   return (
     <>
@@ -46,14 +46,14 @@ export function CurrentWeather({data, getWeatherIcon}) {
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Wind
           </p>
-          <p className='text-4xl'>{data.current.wind} km/h</p>
+          <p className='text-4xl'>{data.current.wind} {unit.windSpeed === 'km/h' ? 'km/h' : 'mph'}</p>
         </div>
         <div className='bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md p-4'>
           <p className='
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Precipitation
           </p>
-          <p className='text-4xl'>{data.current.percipitation} mm</p>
+          <p className='text-4xl'>{data.current.percipitation} {unit.precipitation === 'mm' ? 'mm' : 'in'}</p>
         </div>
       </div>
     </>
