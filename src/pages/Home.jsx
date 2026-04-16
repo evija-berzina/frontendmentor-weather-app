@@ -77,14 +77,14 @@ export function Home({unit}) {
     const dailyArray = result.daily.time.map((date, index) => ({
       time: dayjs(date).format('ddd'),
       weatherCode: result.daily.weather_code[index],
-      maxTemperature: result.daily.temperature_2m_max[index],
-      minTemperature: result.daily.temperature_2m_min[index],
+      maxTemperature: Math.round(result.daily.temperature_2m_max[index]),
+      minTemperature: Math.round(result.daily.temperature_2m_min[index]),
     }));
 
     const hourlyArray = result.hourly.time.map((hour, index) => ({
       time: dayjs(hour).format('h A'),
       weatherCode: result.hourly.weather_code[index],
-      temperature: result.hourly.temperature_2m[index],
+      temperature: Math.round(result.hourly.temperature_2m[index]),
     }))
   
     setData(prev => ({
@@ -94,11 +94,11 @@ export function Home({unit}) {
         weatherCode: result.current.weather_code,
         time: dayjs(result.current.time).format('dddd, MMM D, YYYY'),
         cityName: displayName,
-        currentTemperature: result.current.temperature_2m,
-        feelsLike: result.current.apparent_temperature,
+        currentTemperature: Math.round(result.current.temperature_2m),
+        feelsLike: Math.round(result.current.apparent_temperature),
         humidity: result.current.relative_humidity_2m,
-        wind: result.current.wind_speed_10m,
-        percipitation: result.current.precipitation,
+        wind: Math.round(result.current.wind_speed_10m),
+        percipitation: Math.round(result.current.precipitation),
       },
       daily: dailyArray,
       hourly: hourlyArray,

@@ -23,7 +23,7 @@ export function CurrentWeather({data, getWeatherIcon, unit}) {
           <img
           className='w-30 h-30'
           src={getWeatherIcon(data.current.weatherCode)} alt="" />
-          <p className='text-8xl italic font-normal'>{Math.round(data.current.currentTemperature)}°</p>
+          <p className='text-8xl italic font-normal'>{data.current.currentTemperature}°</p>
         </div>
       </div>
       <div className='grid grid-cols-2 gap-4'>
