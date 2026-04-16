@@ -1,17 +1,9 @@
-import { useState } from 'react';
 import Logo from '../assets/images/logo.svg';
 import IconUnits from '../assets/images/icon-units.svg';
 import IconDropdown from '../assets/images/icon-dropdown.svg';
 import IconCheckmark from '../assets/images/icon-checkmark.svg';
 
-export function Header() {
-
-  const [unit, setUnit] = useState({
-    temperature: 'c',
-    windSpeed: 'km/h',
-    precipitation: 'mm',
-  });
-  const [showUnits, setShowUnits] = useState(false);
+export function Header({unit, setUnit, showUnits, setShowUnits}) {
 
   function toggleUnits() {
     return (
@@ -26,7 +18,7 @@ export function Header() {
                 type="radio"
                 name="temp"
                 value="c"
-                checked={unit.temperature === 'c'}
+                checked={unit?.temperature === 'c'}
                 onChange={() => setUnit({ ...unit, temperature: 'c' })}
                 className="hidden"
               />

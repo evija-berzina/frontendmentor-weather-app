@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Error} from './Error'
 import {InputSearch} from '../components/InputSearch';
 import { CurrentWeather } from '../components/CurrentWeather';
@@ -14,7 +14,7 @@ import IconRain from '../assets/images/icon-rain.webp';
 import IconSnow from '../assets/images/icon-snow.webp';
 import IconStorm from '../assets/images/icon-storm.webp';
 
-export function Home() {
+export function Home({unit}) {
   
   const [data, setData] = useState({
     current: {
@@ -30,70 +30,178 @@ export function Home() {
     daily: [],
     hourly: []
   });
+  const [coords, setCoords] = useState(null);
+
+  async function getCoordinates(form) {
+    const responseGeo = await fetch(`https://nominatim.openstreetmap.org/search?city=${form}&format=jsonv2`);
+      
+    if (!responseGeo.ok) {
+      throw new Error(`Response status: ${responseGeo.status}`);
+    }
+
+    return await responseGeo.json();
+  }
+
+  async function getWeather(lat, lon, unit) {
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code,apparent_temperature&temperature_unit=${unit.temperature === 'c' ? 'celsius' : 'fahrenheit'}`);
+
+
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    
+    return await response.json();
+  }
+
+  async function getCityFromCoords(lat, lon) {
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+    const data = await response.json();
+    console.log(data)
+    return data.address.town;
+  }
+  
+  async function fetchAndSetWeather({lat, lon, cityName}) {
+
+    let displayName = cityName;
+
+    if(cityName) {
+      const resultGeo = await getCoordinates(cityName);
+      lat = resultGeo[0].lat;
+      lon = resultGeo[0].lon;
+      displayName = resultGeo[0].display_name;
+    } else {
+      displayName = await getCityFromCoords(lat, lon);
+    }
+
+    const result = await getWeather(lat, lon, unit);
+
+    const dailyArray = result.daily.time.map((date, index) => ({
+      time: dayjs(date).format('ddd'),
+      weatherCode: result.daily.weather_code[index],
+      maxTemperature: result.daily.temperature_2m_max[index],
+      minTemperature: result.daily.temperature_2m_min[index],
+    }));
+
+    const hourlyArray = result.hourly.time.map((hour, index) => ({
+      time: dayjs(hour).format('h A'),
+      weatherCode: result.hourly.weather_code[index],
+      temperature: result.hourly.temperature_2m[index],
+    }))
+  
+    setData(prev => ({
+      ...prev,
+      current: {
+        ...prev.current,
+        weatherCode: result.current.weather_code,
+        time: dayjs(result.current.time).format('dddd, MMM D, YYYY'),
+        cityName: displayName,
+        currentTemperature: result.current.temperature_2m,
+        feelsLike: result.current.apparent_temperature,
+        humidity: result.current.relative_humidity_2m,
+        wind: result.current.wind_speed_10m,
+        percipitation: result.current.precipitation,
+      },
+      daily: dailyArray,
+      hourly: hourlyArray,
+    }))
+  }
+
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(async (position) => {
+  //       const lat = position.coords.latitude;
+  //       const lon = position.coords.longitude;
+  //       const cityName = undefined;
+  //       await fetchAndSetWeather({lat, lon, cityName});
+  //     });
+  //   }
+  // },[unit]);
+
+  useEffect(() => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setCoords({
+        lat: position.coords.latitude,
+        lon: position.coords.longitude
+      });
+    });
+  }
+}, []);
+
+  useEffect(() => {
+    if (!coords) return;
+
+    fetchAndSetWeather({
+      lat: coords.lat,
+      lon: coords.lon
+    });
+
+  }, [coords, unit]);
+
 
   async function getData(e) {
     e.preventDefault();
 
-    const form = e.target.search.value;
+    const cityName = e.target.search.value;
 
     try {
-      const responseGeo = await fetch(`https://nominatim.openstreetmap.org/search?city=${form}&format=jsonv2`);
+      // const responseGeo = await fetch(`https://nominatim.openstreetmap.org/search?city=${form}&format=jsonv2`);
       
-      if (!responseGeo.ok) {
-        throw new Error(`Response status: ${responseGeo.status}`);
-      }
+      // if (!responseGeo.ok) {
+      //   throw new Error(`Response status: ${responseGeo.status}`);
+      // }
 
-      const resultGeo = await responseGeo.json();
-      console.log(resultGeo[0].display_name)
+      // const resultGeo = await responseGeo.json();
+      // console.log(resultGeo[0].display_name)
 
 
-      const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${resultGeo[0].lat}&longitude=${resultGeo[0].lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=,temperature_2m,weather_code&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code,apparent_temperature`);
+      // const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${resultGeo[0].lat}&longitude=${resultGeo[0].lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=,temperature_2m,weather_code&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code,apparent_temperature`);
 
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
+      // if (!response.ok) {
+      //   throw new Error(`Response status: ${response.status}`);
+      // }
 
-      const result = await response.json();
+      // const result = await response.json();
+      // const resultGeo = await getCoordinates(form);
 
-      const dailyArray = result.daily.time.map((date, index) => ({
-        time: dayjs(date).format('ddd'),
-        weatherCode: result.daily.weather_code[index],
-        maxTemperature: result.daily.temperature_2m_max[index],
-        minTemperature: result.daily.temperature_2m_min[index],
-      }));
+      // const result = await getWeather(resultGeo[0].lat, resultGeo[0].lon);
 
-      const hourlyArray = result.hourly.time.map((hour, index) => ({
-        time: dayjs(hour).format('h A'),
-        weatherCode: result.hourly.weather_code[index],
-        temperature: result.hourly.temperature_2m[index],
-      }))
+      // const dailyArray = result.daily.time.map((date, index) => ({
+      //   time: dayjs(date).format('ddd'),
+      //   weatherCode: result.daily.weather_code[index],
+      //   maxTemperature: result.daily.temperature_2m_max[index],
+      //   minTemperature: result.daily.temperature_2m_min[index],
+      // }));
 
+      // const hourlyArray = result.hourly.time.map((hour, index) => ({
+      //   time: dayjs(hour).format('h A'),
+      //   weatherCode: result.hourly.weather_code[index],
+      //   temperature: result.hourly.temperature_2m[index],
+      // }))
     
-      setData({
-        ...data,
-        current: {
-          ...data.current,
-          weatherCode: result.current.weather_code,
-          time: dayjs(result.current.time).format('dddd, MMM D, YYYY'),
-          cityName: resultGeo[0].display_name,
-          currentTemperature: result.current.temperature_2m,
-          feelsLike: result.current.apparent_temperature,
-          humidity: result.current.relative_humidity_2m,
-          wind: result.current.wind_speed_10m,
-          percipitation: result.current.precipitation,
-        },
-        daily: dailyArray,
-        hourly: hourlyArray,
-      })
+      // setData({
+      //   ...data,
+      //   current: {
+      //     ...data.current,
+      //     weatherCode: result.current.weather_code,
+      //     time: dayjs(result.current.time).format('dddd, MMM D, YYYY'),
+      //     cityName: resultGeo[0].display_name,
+      //     currentTemperature: result.current.temperature_2m,
+      //     feelsLike: result.current.apparent_temperature,
+      //     humidity: result.current.relative_humidity_2m,
+      //     wind: result.current.wind_speed_10m,
+      //     percipitation: result.current.precipitation,
+      //   },
+      //   daily: dailyArray,
+      //   hourly: hourlyArray,
+      // })
+
+      fetchAndSetWeather({cityName});
 
       const now = dayjs();
       const todaysDay = now.format('YYYY-MM-DD HH:mm');
       console.log(todaysDay)
       console.log(now)
-
-      console.log(result)
-      console.log(result.daily);
-      console.log(result.hourly);
 
     } catch (error) {
       console.log(error.message)
