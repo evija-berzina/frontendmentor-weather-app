@@ -76,6 +76,7 @@ export function Home({unit}) {
 
     const dailyArray = result.daily.time.map((date, index) => ({
       time: dayjs(date).format('ddd'),
+      day: dayjs(date).format('dddd'),
       weatherCode: result.daily.weather_code[index],
       maxTemperature: Math.round(result.daily.temperature_2m_max[index]),
       minTemperature: Math.round(result.daily.temperature_2m_min[index]),

@@ -1,14 +1,35 @@
 import IconDropdown from '../assets/images/icon-dropdown.svg';
 
 export function HourlyForecast({data, getWeatherIcon}) {
+
+  function hourlyForecastDays() {
+    return(
+      <>
+        <div className='bg-[hsl(var(--neutral-800))] rounded-md text-xs p-2 w-40 absolute top-10 right-7 z-10'>
+          {data.daily.map((days) => (
+            
+            <label htmlFor={days.day} key={days.day} className='flex flex-row justify-between items-center p-2 w-full'>
+              <input type="radio" id={days.day} name="daily" className="hidden" />
+              {days.day}
+            </label>
+          ))}
+        </div>
+      </>
+    )
+  }
+
   return (
-    <div className='flex flex-col justify-center items-center gap-2 bg-[hsl(var(--neutral-800))] rounded-2xl p-4'>
+    <div className='flex flex-col justify-center items-center gap-2 bg-[hsl(var(--neutral-800))] rounded-2xl p-4 relative'>
       <div className='flex flex-row justify-between items-center w-full'>
         <h2 className='font-normal'>Hourly forecast</h2>
-        <button className='flex flex-row justify-center items-center gap-2 px-4 py-1.5 bg-[hsl(var(--neutral-600))] rounded-sm text-xs font-light'>
-          Tuesday
+        <button
+          className='flex flex-row justify-center items-center gap-2 px-4 py-1.5 bg-[hsl(var(--neutral-600))] rounded-sm text-xs font-light'
+          onClick={() => hourlyForecastDays()}
+        >
+          {data.daily.map(day => day.day)[0]}
           <img className='w-2 h-2' src={IconDropdown} alt="" />
         </button>
+        <div>{hourlyForecastDays()}</div>
       </div>
       {data.hourly.map(hour => (
         <div key={hour.time} className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
