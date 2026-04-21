@@ -1,6 +1,19 @@
+import dayjs from 'dayjs';
 import IconDropdown from '../assets/images/icon-dropdown.svg';
 
 export function HourlyForecast({data, getWeatherIcon, showUnits, setShowUnits}) {
+
+  const now = dayjs().format('h A');
+  const hourTime = data.hourly.findIndex((hour, index) => {
+    if(hour.time === now) {
+      return index;
+    }
+  });
+  const hourTime2 = data.hourly.slice(hourTime, hourTime + 24);
+
+  console.log(hourTime2)
+  console.log(now)
+  console.log(hourTime)
 
   function hourlyForecastDays() {
     return(
@@ -26,16 +39,16 @@ export function HourlyForecast({data, getWeatherIcon, showUnits, setShowUnits}) 
           className='flex flex-row justify-center items-center gap-2 px-4 py-1.5 bg-[hsl(var(--neutral-600))] rounded-sm text-xs font-light'
           onClick={() => setShowUnits(!showUnits)}
         >
-          {data.daily.map(day => day.day)[0]}
+          {data.daily?.[0]?.day ?? '-'}
           <img className='w-2 h-2' src={IconDropdown} alt="" />
         </button>
         <div>{showUnits ? hourlyForecastDays() : null}</div>
       </div>
-      {data.hourly.map(hour => (
+      {hourTime2.map((hour) => (
         <div key={hour.time} className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
           <div className='flex flex-row justify-center items-center gap-2'>
             <img className='w-10' src={getWeatherIcon(hour.weatherCode)} alt="" />
-            <p>{hour.time} PM</p>
+            <p>{hour.time}</p>
           </div>
           <p className='text-sm'>{hour.temperature}°</p>
         </div>
