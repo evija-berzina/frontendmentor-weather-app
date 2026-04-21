@@ -14,7 +14,7 @@ import IconRain from '../assets/images/icon-rain.webp';
 import IconSnow from '../assets/images/icon-snow.webp';
 import IconStorm from '../assets/images/icon-storm.webp';
 
-export function Home({unit}) {
+export function Home({unit, showUnits, setShowUnits}) {
   
   const [data, setData] = useState({
     current: {
@@ -238,6 +238,8 @@ export function Home({unit}) {
         <HourlyForecast
           data={data}
           getWeatherIcon={getWeatherIcon}
+          showUnits={showUnits}
+          setShowUnits={setShowUnits}
         />
       </section>
       {/* <Error /> */}

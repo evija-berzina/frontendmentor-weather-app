@@ -23,6 +23,8 @@ function App() {
       <main>
         <Home
           unit={unit}
+          showUnits={showUnits}
+          setShowUnits={setShowUnits}
         />
       </main>
     </>
