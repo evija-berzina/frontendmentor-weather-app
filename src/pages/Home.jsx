@@ -76,7 +76,7 @@ export function Home({unit, showUnits, setShowUnits}) {
 
     const dailyArray = result.daily.time.map((date, index) => ({
       time: dayjs(date).format('ddd'),
-      day: dayjs(date).format('dddd'),
+      day: date,
       weatherCode: result.daily.weather_code[index],
       maxTemperature: Math.round(result.daily.temperature_2m_max[index]),
       minTemperature: Math.round(result.daily.temperature_2m_min[index]),
@@ -84,9 +84,12 @@ export function Home({unit, showUnits, setShowUnits}) {
 
     const hourlyArray = result.hourly.time.map((hour, index) => ({
       time: dayjs(hour).format('h A'),
+      time2: hour,
       weatherCode: result.hourly.weather_code[index],
       temperature: Math.round(result.hourly.temperature_2m[index]),
     }))
+
+    console.log(hourlyArray)
   
     setData(prev => ({
       ...prev,
@@ -131,10 +134,14 @@ export function Home({unit, showUnits, setShowUnits}) {
   useEffect(() => {
     if (!coords) return;
 
-    fetchAndSetWeather({
-      lat: coords.lat,
-      lon: coords.lon
-    });
+    async function load() {
+      await fetchAndSetWeather({
+        lat: coords.lat,
+        lon: coords.lon
+      });
+    }
+
+    load();
 
   }, [coords, unit]);
 
