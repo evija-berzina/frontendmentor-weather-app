@@ -32,28 +32,28 @@ export function CurrentWeather({data, getWeatherIcon, unit}) {
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Feels Like
           </p>
-          <p className='text-4xl'>{data.current.feelsLike}°</p>
+          <p className='text-4xl'>{data.hourly.length === 0 ? '-' : data.current.feelsLike + '°'}</p>
         </div>
         <div className='bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md p-4'>
           <p className='
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Humidity
           </p>
-          <p className='text-4xl'>{data.current.humidity}%</p>
+          <p className='text-4xl'>{data.hourly.length === 0 ? '-' : data.current.humidity + '%'}</p>
         </div>
         <div className='bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md p-4'>
           <p className='
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Wind
           </p>
-          <p className='text-4xl'>{data.current.wind} {unit.windSpeed === 'km/h' ? 'km/h' : 'mph'}</p>
+          <p className='text-4xl'>{data.hourly.length === 0 ? '-' : data.current.wind + ' ' + unit.windSpeed}</p>
         </div>
         <div className='bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md p-4'>
           <p className='
           text-[hsl(var(--neutral-200))] text-md pb-4'>
             Precipitation
           </p>
-          <p className='text-4xl'>{data.current.percipitation} {unit.precipitation === 'mm' ? 'mm' : 'in'}</p>
+          <p className='text-4xl'>{data.hourly.length === 0 ? '-' : data.current.percipitation +' ' + unit.precipitation}</p>
         </div>
       </div>
     </>
