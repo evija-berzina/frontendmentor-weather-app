@@ -10,7 +10,7 @@ export function Header({unit, setUnit, showUnits, setShowUnits}) {
       <header>
         <nav className='flex flex-row justify-between'>
           <img className='w-30' src={Logo} alt="Weather Now logo" />
-          <button onClick={() => setShowUnits(!showUnits)} className='flex flex-row justify-center items-center gap-1 px-2 py-1.5 bg-[hsl(var(--neutral-800))] rounded-sm text-xs font-light'>
+          <button onClick={() => setShowUnits(!showUnits)} className='flex flex-row justify-center items-center gap-1 px-2 py-1.5 bg-[hsl(var(--neutral-800))] rounded-sm text-xs font-light cursor-pointer'>
             <img className='w-3 h-3' src={IconUnits} alt="" />
             Units
             <img className='w-2 h-2' src={IconDropdown} alt="" />

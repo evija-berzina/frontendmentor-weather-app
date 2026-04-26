@@ -26,12 +26,12 @@ export function UnitsPanel({unit, setUnit}) {
     <>
       <div className='bg-[hsl(var(--neutral-800))] rounded-md text-xs p-2 w-40 absolute top-18 right-7 z-10'>
         <button
-          className='p-2'
+          className='p-2 text-left cursor-pointer hover:bg-[hsl(var(--neutral-700))] hover:rounded-md hover:w-full'
           onClick={() => switchAllUnits()}
         >{allUnits === 'metric' ? 'Switch to Imperial' : 'Switch to Metric'}</button>
-        <div className='border-b border-b-[hsl(var(--neutral-600))]'>
-          <p className='text-[hsl(var(--neutral-300))] p-2'>Temperature</p>
-          <label htmlFor="celsius" className={`flex flex-row justify-between items-center p-2 ${unit.temperature === 'c' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
+        <div className=' flex flex-col gap-2 border-b border-b-[hsl(var(--neutral-600))] pb-2'>
+          <p className='text-[hsl(var(--neutral-300))] px-2 pt-2'>Temperature</p>
+          <label htmlFor="celsius" className={`flex flex-row justify-between items-center p-2 cursor-pointer hover:bg-[hsl(var(--neutral-700))] hover:rounded-md ${unit.temperature === 'c' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
             <input
               id="celsius"
               type="radio"
@@ -46,7 +46,7 @@ export function UnitsPanel({unit, setUnit}) {
 
             {unit.temperature === 'c' ? <img src={IconCheckmark} alt="" /> : null}
           </label>
-          <label htmlFor="fahrenheit" className={`flex flex-row justify-between items-center p-2 ${unit.temperature === 'f' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
+          <label htmlFor="fahrenheit" className={`flex flex-row justify-between items-center p-2 cursor-pointer hover:bg-[hsl(var(--neutral-700))] hover:rounded-md ${unit.temperature === 'f' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
             <input
               id="fahrenheit"
               type="radio"
@@ -63,9 +63,9 @@ export function UnitsPanel({unit, setUnit}) {
           </label>
         </div>
         
-        <div className='border-b border-b-[hsl(var(--neutral-600))]'>
-          <p className='text-[hsl(var(--neutral-300))] p-2'>Wind Speed</p>
-          <label htmlFor="wind-kmh" className={`flex flex-row justify-between items-center p-2 ${unit.windSpeed === 'km/h' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
+        <div className='flex flex-col gap-2 border-b border-b-[hsl(var(--neutral-600))] pb-2'>
+          <p className='text-[hsl(var(--neutral-300))] px-2 pt-2'>Wind Speed</p>
+          <label htmlFor="wind-kmh" className={`flex flex-row justify-between items-center p-2 cursor-pointer hover:bg-[hsl(var(--neutral-700))] hover:rounded-md ${unit.windSpeed === 'km/h' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
             <input
               id="wind-kmh"
               type="radio"
@@ -80,7 +80,7 @@ export function UnitsPanel({unit, setUnit}) {
 
             {unit.windSpeed === 'km/h' ? <img src={IconCheckmark} alt="" /> : null}
           </label>
-          <label htmlFor="wind-mph" className={`flex flex-row justify-between items-center p-2 ${unit.windSpeed === 'mph' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
+          <label htmlFor="wind-mph" className={`flex flex-row justify-between items-center p-2 cursor-pointer hover:bg-[hsl(var(--neutral-700))] hover:rounded-md ${unit.windSpeed === 'mph' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
             <input
               id="wind-mph"
               type="radio"
@@ -97,9 +97,9 @@ export function UnitsPanel({unit, setUnit}) {
           </label>
         </div>
         
-        <div className=''>
-          <p className='text-[hsl(var(--neutral-300))] p-2'>Precipitation</p>
-          <label htmlFor="millimeters" className={`flex flex-row justify-between items-center p-2 ${unit.precipitation === 'mm' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
+        <div className='flex flex-col gap-2'>
+          <p className='text-[hsl(var(--neutral-300))] px-2 pt-2'>Precipitation</p>
+          <label htmlFor="millimeters" className={`flex flex-row justify-between items-center p-2 cursor-pointer hover:bg-[hsl(var(--neutral-700))] hover:rounded-md ${unit.precipitation === 'mm' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
             <input
               id="millimeters"
               type="radio"
@@ -112,7 +112,7 @@ export function UnitsPanel({unit, setUnit}) {
             Millimeters (mm)
             {unit.precipitation === 'mm' ? <img src={IconCheckmark} alt="" /> : null}
           </label>
-          <label htmlFor="inches" className={`flex flex-row justify-between items-center p-2 ${unit.precipitation === 'in' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
+          <label htmlFor="inches" className={`flex flex-row justify-between items-center p-2 cursor-pointer hover:bg-[hsl(var(--neutral-700))] hover:rounded-md ${unit.precipitation === 'in' ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
             <input
               id="inches"
               type="radio"
