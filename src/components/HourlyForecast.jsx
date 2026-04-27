@@ -2,9 +2,10 @@ import {useState} from 'react';
 import dayjs from 'dayjs';
 import IconDropdown from '../assets/images/icon-dropdown.svg';
 
-export function HourlyForecast({data, getWeatherIcon, showUnits, setShowUnits}) {
+export function HourlyForecast({data, getWeatherIcon}) {
 
   const [selectedDay, setSelectedDay] = useState(null);
+  const [showDayDropdown, setShowDayDropdown] = useState(false);
 
   const now = dayjs().format('h A');
   const hourTime = data.hourly.findIndex((hour, index) => {
@@ -53,12 +54,12 @@ export function HourlyForecast({data, getWeatherIcon, showUnits, setShowUnits}) 
   }
 
   return (
-    <div className='flex flex-col items-center gap-2 bg-[hsl(var(--neutral-800))] rounded-2xl py-4 ps-4 relative'>
+    <div className='flex flex-col items-center gap-2 bg-[hsl(var(--neutral-800))] rounded-2xl py-4 ps-4 relative h-fit'>
       <div className='flex flex-row justify-between items-center w-full pe-4'>
         <h2 className='font-normal'>Hourly forecast</h2>
         <button
           className='flex flex-row justify-center items-center gap-2 px-4 py-1.5 bg-[hsl(var(--neutral-600))] rounded-sm text-xs font-light cursor-pointer'
-          onClick={() => setShowUnits(!showUnits)}
+          onClick={() => setShowDayDropdown(!showDayDropdown)}
         >
           {selectedDay === null
             ? data.daily?.[0]?.day
@@ -69,7 +70,7 @@ export function HourlyForecast({data, getWeatherIcon, showUnits, setShowUnits}) 
           <img className='w-2 h-2' src={IconDropdown} alt="" />
         </button>
       </div>
-      <div>{showUnits ? hourlyForecastDays() : null}</div>
+      <div>{showDayDropdown ? hourlyForecastDays() : null}</div>
       <div className='flex flex-col w-full gap-4 overflow-y-auto h-144 pe-4'>
         {data.hourly.length === 0
           ? <div className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
