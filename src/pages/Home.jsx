@@ -14,6 +14,7 @@ import IconRain from '../assets/images/icon-rain.webp';
 import IconSnow from '../assets/images/icon-snow.webp';
 import IconStorm from '../assets/images/icon-storm.webp';
 
+
 export function Home({unit, showUnits, setShowUnits}) {
   
   const [data, setData] = useState({
@@ -31,6 +32,7 @@ export function Home({unit, showUnits, setShowUnits}) {
     hourly: []
   });
   const [coords, setCoords] = useState(null);
+  const [error, setError] = useState(false);
 
   async function getCoordinates(form) {
     const responseGeo = await fetch(`https://nominatim.openstreetmap.org/search?city=${form}&format=jsonv2`);
@@ -131,25 +133,45 @@ export function Home({unit, showUnits, setShowUnits}) {
   }
 }, []);
 
-  useEffect(() => {
-    if (!coords) return;
+useEffect(() => {
+  if (!coords) return;
 
-    async function load() {
+  const load = async () => {
+    try {
       await fetchAndSetWeather({
         lat: coords.lat,
         lon: coords.lon
       });
+    } catch (error) {
+      console.log(error.message);
+      setError(true);
     }
+  };
 
-    load();
+  load();
+}, [coords, unit]);
 
-  }, [coords, unit]);
+  const reload = async () => {
+  if (!coords) return;
+
+  try {
+    await fetchAndSetWeather({
+      lat: coords.lat,
+      lon: coords.lon
+    });
+    setError(false);
+  } catch (error) {
+    console.log(error.message);
+    setError(true);
+  }
+};
 
 
   async function getData(e) {
     e.preventDefault();
 
     const cityName = e.target.search.value;
+    setError(false);
 
     try {
       // const responseGeo = await fetch(`https://nominatim.openstreetmap.org/search?city=${form}&format=jsonv2`);
@@ -203,7 +225,7 @@ export function Home({unit, showUnits, setShowUnits}) {
       //   hourly: hourlyArray,
       // })
 
-      fetchAndSetWeather({cityName});
+      await fetchAndSetWeather({cityName});
 
       const now = dayjs();
       const todaysDay = now.format('YYYY-MM-DD HH:mm');
@@ -212,6 +234,7 @@ export function Home({unit, showUnits, setShowUnits}) {
 
     } catch (error) {
       console.log(error.message)
+      setError(true);
     }
   }
 
@@ -228,28 +251,38 @@ export function Home({unit, showUnits, setShowUnits}) {
 
   return (
     <>
-      <section>
+    {error
+      ? <Error
+          reload={reload}
+        />
+      : <section >
         <h1 className='text-5xl font-display text-center leading-14 tracking-tight py-10'>How's the sky looking today?</h1>
         <InputSearch
           getData={getData}
         />
-        <CurrentWeather
-          data={data}
-          getWeatherIcon={getWeatherIcon}
-          unit={unit}
-        />
-        <DailyForecast
-          data={data}
-          getWeatherIcon={getWeatherIcon}
-        />
-        <HourlyForecast
-          data={data}
-          getWeatherIcon={getWeatherIcon}
-          showUnits={showUnits}
-          setShowUnits={setShowUnits}
-        />
+        <div className='grid md:grid-cols-3 gap-4'>
+          <div className='grid gap-4 md:col-span-2 md:min-h-screen'>
+            <CurrentWeather
+              data={data}
+              getWeatherIcon={getWeatherIcon}
+              unit={unit}
+            />
+            <DailyForecast
+              data={data}
+              getWeatherIcon={getWeatherIcon}
+            />
+          </div>
+          <div className='grid md:col-span-1'>
+            <HourlyForecast
+              data={data}
+              getWeatherIcon={getWeatherIcon}
+              showUnits={showUnits}
+              setShowUnits={setShowUnits}
+            />
+          </div>
+        </div>
       </section>
-      {/* <Error /> */}
+    }
     </>
   )
 }
