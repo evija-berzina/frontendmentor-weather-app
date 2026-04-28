@@ -1,7 +1,15 @@
+import { useState } from 'react';
 import IconError from '../assets/images/icon-error.svg';
 import IconRetry from '../assets/images/icon-retry.svg';
 
 export function Error({reload}) {
+  const [loading, setLoading] = useState(false);
+
+  const handleReload = async () => {
+    setLoading(true);
+    await reload();
+    setLoading(false);
+  };
 
   return (
     <div className='flex flex-col justify-center items-center text-center mt-20'>
@@ -12,9 +20,12 @@ export function Error({reload}) {
       </p>
       <button
         className='flex flex-row gap-2 rounded-md bg-[hsl(var(--neutral-600))] py-2 px-6 text-sm cursor-pointer hover:border hover:border-[hsl(var(--neutral-300))] transition-colors duration-300 ease-in-out'
-        onClick={() => reload()}
+        onClick={() => {
+          handleReload();
+          reload();
+        }}
       >
-        <img src={IconRetry} alt="" />
+        <img src={IconRetry} alt="" className={loading ? 'animate-spin' : ''} />
         Retry
       </button>
     </div>
