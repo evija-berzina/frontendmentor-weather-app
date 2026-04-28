@@ -73,18 +73,20 @@ export function HourlyForecast({data, getWeatherIcon}) {
       <div>{showDayDropdown ? hourlyForecastDays() : null}</div>
       <div className='flex flex-col w-full gap-4 overflow-y-auto h-144 pe-4'>
         {data.hourly.length === 0
-          ? <div className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
+          ? Array.from({ length: 24 }).map((_, i) => (
+          <div key={i} className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
               <div className='flex flex-row justify-center items-center gap-2'>
-                <img className='w-10' src='' alt="" />
+                <div className='w-10 h-10'></div>
                 <p></p>
               </div>
               <p className='text-sm'></p>
             </div>
+          ))
           : selectedDay === null
             ? hourTime2.map((hour) => (
               <div key={hour.time} className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
                 <div className='flex flex-row justify-center items-center gap-2'>
-                  <img className='w-10' src={getWeatherIcon(hour.weatherCode)} alt="" />
+                  <img className='w-10 h-10' src={getWeatherIcon(hour.weatherCode)} alt="" />
                   <p>{hour.time}</p>
                 </div>
                 <p className='text-sm'>{hour.temperature}°</p>
