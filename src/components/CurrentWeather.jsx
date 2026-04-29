@@ -4,7 +4,7 @@ import BgImageLarge from '../assets/images/bg-today-large.svg';
 export function CurrentWeather({data, getWeatherIcon, unit}) {
   
   return (
-    <div className='flex flex-col justify-between'>
+    <div className='flex flex-col justify-top items-top gap-6'>
       {data.daily.length === 0 ? (
         <div className='w-full h-72 bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md flex flex-col justify-center items-center'>
           <div className="flex gap-2 h-4">
@@ -18,8 +18,8 @@ export function CurrentWeather({data, getWeatherIcon, unit}) {
         </div>
       ) : (
         <>
-          <div className='relative w-full h-72 flex flex-col justify-evenly items-center p-6 rounded-2xl overflow-hidden mt-8 mb-4'>
-            <picture>
+          <div className='relative w-full h-72 flex flex-col justify-evenly items-center p-6 rounded-2xl overflow-hidden'>
+            <picture className='absolute inset-0 w-full h-full -z-10'>
               <source srcSet={BgImageLarge} media="(min-width: 1024px)" />
               <img src={BgImageSmall} className="absolute inset-0 w-full h-full object-cover" />
             </picture>
@@ -60,7 +60,7 @@ export function CurrentWeather({data, getWeatherIcon, unit}) {
 
         <div className='bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md p-4'>
           <p className='text-[hsl(var(--neutral-200))] pb-4'>Wind</p>
-          <p className='text-4xl'>
+          <p className='text-4xl whitespace-nowrap'>
             {data.hourly.length === 0 ? '-' : data.current.wind +' ' + unit.windSpeed}
           </p>
         </div>

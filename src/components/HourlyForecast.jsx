@@ -58,7 +58,7 @@ export function HourlyForecast({data, getWeatherIcon}) {
       <div className='flex flex-row justify-between items-center w-full pe-4'>
         <h2 className='font-normal'>Hourly forecast</h2>
         <button
-          className='flex flex-row justify-center items-center gap-2 px-4 py-1.5 bg-[hsl(var(--neutral-600))] rounded-sm text-xs font-light cursor-pointer'
+          className='flex flex-row justify-center items-center gap-2 px-5 py-2 bg-[hsl(var(--neutral-600))] rounded-sm text-sm font-light cursor-pointer'
           onClick={() => setShowDayDropdown(!showDayDropdown)}
         >
           {selectedDay === null

@@ -3,13 +3,13 @@ import IconSearch from '../assets/images/icon-search.svg';
 export function InputSearch({getData}) {
 
   return (
-    <form onSubmit={getData} className='flex flex-col gap-2'>
-      <div className='relative w-full'>
+    <form onSubmit={getData} className='flex flex-col gap-2 md:flex-row md:gap-4 md:justify-center md:items-center md:max-w-xl md:mx-auto mb-10'>
+      <div className='relative w-full xl:w-auto'>
         <img
           className='w-4 absolute z-10 top-1/2 -translate-y-1/2 left-4'
           src={IconSearch} alt="Search" />
         <input
-          className='bg-[hsl(var(--neutral-800))] placeholder:text-[hsl(var(--neutral-200))] text-md font-light py-2 px-12 rounded-lg outline-none w-full cursor-pointer'
+          className='bg-[hsl(var(--neutral-800))] placeholder:text-[hsl(var(--neutral-200))] text-md font-light py-3 px-12 rounded-lg outline-none w-full md:w-120 cursor-pointer'
           aria-label='Search for a place'
           type="search"
           name="search"
@@ -17,7 +17,7 @@ export function InputSearch({getData}) {
       </div>
       <button
       type='submit'
-      className='bg-[hsl(var(--blue-500))] py-2 rounded-lg text-md font-light cursor-pointer hover:bg-[hsl(var(--blue-700))] transition-colors duration-300 ease-in-out'>Search</button>
+      className='bg-[hsl(var(--blue-500))] py-3 px-6 rounded-lg text-md font-light cursor-pointer hover:bg-[hsl(var(--blue-700))] transition-colors duration-300 ease-in-out'>Search</button>
     </form>
   )
 }

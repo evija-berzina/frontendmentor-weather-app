@@ -260,8 +260,8 @@ useEffect(() => {
         <InputSearch
           getData={getData}
         />
-        <div className='grid md:grid-cols-3 gap-4'>
-          <div className='grid gap-4 md:col-span-2 md:min-h-screen'>
+        <div className='grid xl:grid-cols-3 gap-8'>
+          <div className='grid gap-10 lg:gap2 xl:col-span-2'>
             <CurrentWeather
               data={data}
               getWeatherIcon={getWeatherIcon}
@@ -272,7 +272,7 @@ useEffect(() => {
               getWeatherIcon={getWeatherIcon}
             />
           </div>
-          <div className='grid md:col-span-1'>
+          <div className='grid xl:col-span-1'>
             <HourlyForecast
               data={data}
               getWeatherIcon={getWeatherIcon}

@@ -9,11 +9,11 @@ export function Header({unit, setUnit, showUnits, setShowUnits}) {
     <>
       <header>
         <nav className='flex flex-row justify-between'>
-          <img className='w-30' src={Logo} alt="Weather Now logo" />
-          <button onClick={() => setShowUnits(!showUnits)} className='flex flex-row justify-center items-center gap-1 px-2 py-1.5 bg-[hsl(var(--neutral-800))] rounded-sm text-xs font-light cursor-pointer'>
-            <img className='w-3 h-3' src={IconUnits} alt="" />
+          <img className='w-40 sm:w-50' src={Logo} alt="Weather Now logo" />
+          <button onClick={() => setShowUnits(!showUnits)} className='flex flex-row justify-center items-center gap-2 px-5 py-3 bg-[hsl(var(--neutral-800))] rounded-md text-sm font-light cursor-pointer hover:bg-[hsl(var(--neutral-700))] transform transition-colors duration-300 ease-in-out'>
+            <img className='w-4 h-4' src={IconUnits} alt="" />
             Units
-            <img className='w-2 h-2' src={IconDropdown} alt="" />
+            <img className='w-3 h-3' src={IconDropdown} alt="" />
           </button>
           {showUnits && <UnitsPanel unit={unit} setUnit={setUnit} />}
         </nav>
