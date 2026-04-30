@@ -35,7 +35,7 @@ export function HourlyForecast({data, getWeatherIcon}) {
   function hourlyForecastDays() {
     return(
       <>
-        <div className='flex flex-col gap-1 bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md text-xs p-2 w-40 absolute top-12 right-4 z-10'>
+        <div className='flex flex-col gap-1 bg-[hsl(var(--neutral-800))] border border-[hsl(var(--neutral-600))] rounded-md text-sm p-2 w-50 absolute top-15 right-4 z-10'>
           {data.daily.map((days) => (
             <label htmlFor={days.day} key={days.day} className={`flex flex-row justify-between items-center p-2 w-full hover:bg-[hsl(var(--neutral-700))] hover:rounded-md cursor-pointer ${days.day === selectedDay ? 'bg-[hsl(var(--neutral-700))] rounded-md' : ''}`}>
               <input
@@ -67,7 +67,7 @@ export function HourlyForecast({data, getWeatherIcon}) {
               : '-'
             : dayjs(selectedDay).format('dddd')
           }
-          <img className='w-2 h-2' src={IconDropdown} alt="" />
+          <img className={`w-3 h-3 transform transition-transform duration-300 ease-in-out ${showDayDropdown ? "rotate-180" : "rotate-0"}`} src={IconDropdown} alt="" />
         </button>
       </div>
       <div>{showDayDropdown ? hourlyForecastDays() : null}</div>
