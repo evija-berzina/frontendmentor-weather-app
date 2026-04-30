@@ -74,4 +74,18 @@ body {
   font-weight: 300;
 }
 
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
 
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: inherit;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--neutral-600));
+    border-radius: 100vh;
+  }
+}

@@ -71,7 +71,7 @@ export function HourlyForecast({data, getWeatherIcon}) {
         </button>
       </div>
       <div>{showDayDropdown ? hourlyForecastDays() : null}</div>
-      <div className='flex flex-col w-full gap-4 overflow-y-auto h-144 pe-4'>
+      <div className='flex flex-col w-full gap-4 overflow-y-auto h-144 pe-4 scrollbar'>
         {data.hourly.length === 0
           ? Array.from({ length: 24 }).map((_, i) => (
           <div key={i} className='flex flex-row justify-between items-center w-full bg-[hsl(var(--neutral-700))] rounded-lg border border-[hsl(var(--neutral-600))] px-4 py-2'>
