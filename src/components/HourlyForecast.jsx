@@ -54,11 +54,11 @@ export function HourlyForecast({data, getWeatherIcon}) {
   }
 
   return (
-    <div className='flex flex-col items-center gap-2 bg-[hsl(var(--neutral-800))] rounded-2xl py-4 ps-4 relative h-fit'>
+    <div className='flex flex-col items-center justify-center gap-2 bg-[hsl(var(--neutral-800))] rounded-2xl py-4 ps-4 relative h-fit w-full'>
       <div className='flex flex-row justify-between items-center w-full pe-4'>
         <h2 className='font-normal'>Hourly forecast</h2>
         <button
-          className='flex flex-row justify-center items-center gap-2 px-5 py-2 bg-[hsl(var(--neutral-600))] rounded-sm text-sm font-light cursor-pointer'
+          className='flex items-center justify-center gap-2 px-5 py-2 bg-[hsl(var(--neutral-600))] rounded-sm text-sm font-light cursor-pointer transition-all duration-200 hover:shadow-[0_0_3px_hsl(var(--neutral-300))]'
           onClick={() => setShowDayDropdown(!showDayDropdown)}
         >
           {selectedDay === null

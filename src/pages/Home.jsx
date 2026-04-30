@@ -272,7 +272,7 @@ useEffect(() => {
               getWeatherIcon={getWeatherIcon}
             />
           </div>
-          <div className='grid xl:col-span-1'>
+          <div className='grid xl:col-span-1 w-full mx-auto md:w-[70%] lg:w-[80%] xl:w-full'>
             <HourlyForecast
               data={data}
               getWeatherIcon={getWeatherIcon}
