@@ -26,7 +26,7 @@ export function UnitsPanel({unit, setUnit}) {
     <>
       <div className='bg-[hsl(var(--neutral-800))] rounded-md text-sm p-2 w-50 absolute top-22 right-6 md:right-15 lg:right-40 xl:right-[clamp(3rem,10vw,12rem)] z-10'>
         <button
-          className='p-2 text-left cursor-pointer hover:bg-[hsl(var(--neutral-700))] hover:rounded-md hover:w-full'
+          className='w-full p-2 text-left cursor-pointer hover:bg-[hsl(var(--neutral-700))] hover:rounded-md hover:w-full'
           onClick={() => switchAllUnits()}
         >{allUnits === 'metric' ? 'Switch to Imperial' : 'Switch to Metric'}</button>
         <div className=' flex flex-col gap-2 border-b border-b-[hsl(var(--neutral-600))] pb-2'>
