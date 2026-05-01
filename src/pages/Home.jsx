@@ -33,6 +33,7 @@ export function Home({unit, showUnits, setShowUnits}) {
   });
   const [coords, setCoords] = useState(null);
   const [error, setError] = useState(false);
+  const [noResults, setNoResults] = useState(false);
 
   async function getCoordinates(form) {
     const responseGeo = await fetch(`https://nominatim.openstreetmap.org/search?city=${form}&format=jsonv2`);
@@ -67,6 +68,12 @@ export function Home({unit, showUnits, setShowUnits}) {
 
     if(cityName) {
       const resultGeo = await getCoordinates(cityName);
+
+      if (!resultGeo.length) {
+        setNoResults(true);
+        return;
+      }
+
       lat = resultGeo[0].lat;
       lon = resultGeo[0].lon;
       displayName = resultGeo[0].display_name;
@@ -171,6 +178,7 @@ useEffect(() => {
     e.preventDefault();
 
     const cityName = e.target.search.value;
+    setNoResults(false);
     setError(false);
 
     try {
@@ -251,16 +259,20 @@ useEffect(() => {
 
   return (
     <>
-    {error
-      ? <Error
-          reload={reload}
-        />
-      : <section >
+    { error ? (
+      <Error
+        reload={reload}
+      />
+    ) : <section >
         <h1 className='text-5xl font-display text-center leading-14 tracking-tight py-10'>How's the sky looking today?</h1>
         <InputSearch
           getData={getData}
         />
-        <div className='grid xl:grid-cols-3 gap-8'>
+        {noResults ? (
+          <div className='flex flex-col justify-center items-center text-center'>
+            <h1 className='text-2xl py-4'>No search result found!</h1>
+          </div>
+        ) : <div className='grid xl:grid-cols-3 gap-8'>
           <div className='grid gap-10 lg:gap2 xl:col-span-2'>
             <CurrentWeather
               data={data}
@@ -280,7 +292,7 @@ useEffect(() => {
               setShowUnits={setShowUnits}
             />
           </div>
-        </div>
+        </div>}
       </section>
     }
     </>
