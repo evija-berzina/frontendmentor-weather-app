@@ -18,18 +18,18 @@ export function CurrentWeather({data, getWeatherIcon, unit}) {
         </div>
       ) : (
         <>
-          <div className='relative w-full h-72 flex flex-col justify-evenly items-center p-6 rounded-2xl overflow-hidden'>
+          <div className='relative w-full h-72 flex flex-col justify-evenly items-center p-6 rounded-2xl overflow-hidden md:flex-row md:justify-between'>
             <picture className='absolute inset-0 w-full h-full -z-10'>
               <source srcSet={BgImageLarge} media="(min-width: 1024px)" />
               <img src={BgImageSmall} className="absolute inset-0 w-full h-full object-cover" />
             </picture>
 
-            <div className='text-center relative'>
+            <div className='text-center relative md:text-start'>
               <p className='text-3xl font-semibold'>{data.current.cityName}</p>
               <p className='text-xl pt-2'>{data.current.time}</p>
             </div>
 
-            <div className='flex flex-row justify-between items-center w-full relative'>
+            <div className='flex flex-row justify-between items-center w-full relative md:justify-end md:items-end md:w-fit'>
               <img
                 className='w-30 h-30'
                 src={getWeatherIcon(data.current.weatherCode)}
