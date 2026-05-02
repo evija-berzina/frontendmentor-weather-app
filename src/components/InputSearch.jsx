@@ -9,7 +9,7 @@ export function InputSearch({getData}) {
           className='w-4 absolute z-10 top-1/2 -translate-y-1/2 left-4'
           src={IconSearch} alt="Search" />
         <input
-          className='bg-[hsl(var(--neutral-800))] placeholder:text-[hsl(var(--neutral-200))] text-md font-light py-3 px-12 rounded-lg  w-full md:w-120 cursor-pointer'
+          className='bg-[hsl(var(--neutral-800))] placeholder:text-[hsl(var(--neutral-200))] text-md font-light py-3 pl-12 pr-4 rounded-lg  w-full md:w-120 cursor-pointer'
           aria-label='Search for a place'
           type="search"
           name="search"
