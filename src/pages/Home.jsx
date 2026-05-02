@@ -180,6 +180,20 @@ useEffect(() => {
     const cityName = e.target.search.value;
     setNoResults(false);
     setError(false);
+    setData({
+      current: {
+        weatherCode: '',
+        cityName: '',
+        time: '',
+        currentTemperature: '',
+        feelsLike: '',
+        humidity: '',
+        wind: '',
+        percipitation: '',
+      },
+      daily: [],
+      hourly: []
+    });
 
     try {
       // const responseGeo = await fetch(`https://nominatim.openstreetmap.org/search?city=${form}&format=jsonv2`);
