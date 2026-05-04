@@ -75,14 +75,7 @@ export function Home({unit, showUnits, setShowUnits}) {
 
     const address = data.address;
 
-    return (
-      address.city ||
-      address.town ||
-      address.village ||
-      address.county ||
-      data.display_name ||
-      'Unknown location'
-    );
+    return `${address.city || address.town || address.village}, ${address.country}`;
   }
   
   async function fetchAndSetWeather({lat, lon, cityName}) {
