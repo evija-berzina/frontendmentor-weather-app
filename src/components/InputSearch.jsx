@@ -1,6 +1,6 @@
 import IconSearch from '../assets/images/icon-search.svg';
 
-export function InputSearch({getData}) {
+export function InputSearch({getData, query, setQuery, suggestions, setSuggestions, handleSelect}) {
 
   return (
     <form onSubmit={getData} className='flex flex-col gap-2 md:flex-row md:gap-4 md:justify-center md:items-center md:max-w-xl md:mx-auto mb-10'>
@@ -13,8 +13,23 @@ export function InputSearch({getData}) {
           aria-label='Search for a place'
           type="search"
           name="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
           autoComplete="off"
           placeholder="Search for a place..." />
+        {suggestions.length > 0 && (
+          <ul className='bg-[hsl(var(--neutral-800))] rounded-md text-sm p-3 w-full absolute top-14 z-10'>
+            {suggestions.map((item, index) => (
+              <li
+                className='p-2 rounded-md cursor-pointer hover:bg-[hsl(var(--neutral-600))] '
+                key={index}
+                onClick={() => {handleSelect(item); setQuery(''); setSuggestions([])}}
+              >
+                {item.display_name.split(',').slice(0, 1)}, {item.display_name.split(',').slice(-1)}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       <button
       type='submit'

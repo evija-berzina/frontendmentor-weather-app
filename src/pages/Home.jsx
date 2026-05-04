@@ -38,6 +38,8 @@ export function Home({unit, showUnits, setShowUnits}) {
   });
   const [error, setError] = useState(false);
   const [noResults, setNoResults] = useState(false);
+  const [query, setQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
 
   // GET COORDINATES FROM CITY NAME
   async function getCoordinates(form) {
@@ -169,11 +171,46 @@ export function Home({unit, showUnits, setShowUnits}) {
     }
   };
 
+  const handleSelect = (item) => {
+    setQuery(item.display_name);
+    setSuggestions([]);
+
+    setLocation({
+      lat: item.lat,
+      lon: item.lon,
+      cityName: item.display_name
+    });
+  };
+
+  useEffect(() => {
+    const timeout = setTimeout(async () => {
+      if (query.length < 2) {
+        setSuggestions([]);
+        return;
+      }
+
+      try {
+        const results = await getCoordinates(query);
+        setSuggestions(results.slice(0, 5));
+      } catch (error) {
+        console.log(error);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [query]);
+
   // GET WEATHER DATA ON SEARCH
   async function getData(e) {
     e.preventDefault();
 
     const cityName = e.target.search.value;
+    setQuery(cityName);
+
+    if(cityName.length < 2) {
+      setSuggestions([]);
+      return;
+    }
 
     setNoResults(false);
     setError(false);
@@ -195,6 +232,7 @@ export function Home({unit, showUnits, setShowUnits}) {
 
     try {
       const resultGeo = await getCoordinates(cityName);
+      setSuggestions(resultGeo.slice(0, 5));
 
       if (!resultGeo.length) {
         setNoResults(true);
@@ -240,6 +278,11 @@ export function Home({unit, showUnits, setShowUnits}) {
         <h1 className='text-5xl font-display text-center leading-14 tracking-tight py-10'>How's the sky looking today?</h1>
         <InputSearch
           getData={getData}
+          query={query}
+          setQuery={setQuery}
+          suggestions={suggestions}
+          setSuggestions={setSuggestions}
+          handleSelect={handleSelect}
         />
         {noResults ? (
           <div className='flex flex-col justify-center items-center text-center'>
