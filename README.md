@@ -34,7 +34,3 @@ This is a weather application built with React (Vite) that allows users to searc
 3. Install dependencies: npm install
 4. Run the development server: npm run dev
 5. Open http://localhost:5173 in your browser
-
-## Author
-
-Created as a learning project to improve React and APIs skills.
