@@ -2,7 +2,9 @@
 
 This is a weather application built with React (Vite) that allows users to search for locations and view current weather conditions along with daily and hourly forecasts.
 
-![Live Demo](https://tranquil-pixie-1a6cff.netlify.app/)
+## Live Site
+
+[View Live Site](https://tranquil-pixie-1a6cff.netlify.app/)
 
 ![Screenshot](./public/screenshot.png)
 
@@ -27,7 +29,7 @@ This is a weather application built with React (Vite) that allows users to searc
 
 ## Getting Started
 
-1. Clone the repository: git clone <repo-url>
+1. Clone the repository: git clone URL
 2. Navigate to the project folder: cd weather-app
 3. Install dependencies: npm install
 4. Run the development server: npm run dev
